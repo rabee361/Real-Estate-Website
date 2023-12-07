@@ -15,7 +15,7 @@ class EstateSerializer(serializers.ModelSerializer):
         distance =  getattr(obj,'distance',None)
         return distance.m if distance else None
     def get_longitude(self,obj):
-        point = GEOSGeometry(obj.longitude)
+        point = GEOSGeometry(obj.coordinates)
         return [point.x,point.y]
 
 
