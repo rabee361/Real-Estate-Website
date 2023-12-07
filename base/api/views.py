@@ -32,7 +32,6 @@ class ListOffersPerEstate(RetrieveAPIView):
 
 class OffersNear(ListAPIView):
     serializer_class = EstateSerializer
-
     def get_queryset(self):
         longitude = self.request.query_params.get('longitude',None)
         latitude = self.request.query_params.get('latitude',None)
@@ -40,7 +39,8 @@ class OffersNear(ListAPIView):
 
         if ptn:
             estates = Estate.objects.annotate(distance=Distance('coordinates', ptn))\
-                                    .order_by('distance').filter(distance__lte=2000)
+                                    .order_by('distance').all()
+                                        # filter(distance__lte=2000)
         else:
             estates = Estate.objects.all()
 

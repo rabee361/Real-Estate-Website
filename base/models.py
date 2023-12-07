@@ -10,6 +10,7 @@ class Offer(models.Model):
         return f'{self.user.username}-{self.price}'
 
 
+
 class Address(models.Model):
     country = models.CharField(max_length=30)
     governate = models.CharField(max_length=20)
@@ -39,7 +40,6 @@ class Estate(models.Model):
     property_type = models.CharField(choices=TYPES,max_length=15)
     active = models.BooleanField()
     price = models.IntegerField()
-
 
     def __str__(self):
         return f'{self.owner.username}-{self.property_type}'
