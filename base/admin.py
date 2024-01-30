@@ -1,10 +1,14 @@
 from django.contrib import admin
 from django.contrib.gis.admin import OSMGeoAdmin
-from .models import Offer , Estate , Address
+from .models import *
 
 @admin.register(Estate)
 class EstateAdmin(OSMGeoAdmin):
-    list_display = ('coordinates',)
+    pass
+
+@admin.register(CustomUser)
+class CustomUserAdmin(OSMGeoAdmin):
+    pass
 
 admin.site.register(Offer)
 admin.site.register(Address)

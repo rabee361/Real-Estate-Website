@@ -5,8 +5,13 @@ urlpatterns = [
     path('offers/' , ListOffersPerEstate.as_view() , name="offers"),
     path('estates/' , ListEstates.as_view(), name="estates"),
     path('near-by/' , OffersNear.as_view()),
-    path('login/', Login.as_view() , name="login"),
-    path('logout/' , Logout.as_view() , name="logout"),
-    path('sign-up/' , SignUp2.as_view() , name="sign-up")
+    path('estate/<str:pk>' , GetEstate.as_view() , name="estate"),
+    path('user/' , getuser , name="user"),
+    # path('login/' , GoogleLoginView.as_view()),
+    # path('signup/' , GoogleSignupView.as_view()),
+    path('sign-up/' , SignUpView.as_view() , name="sign-up"),
+    path('login/' , LoginView.as_view() , name="login"),
+    path('logout/' , LogoutView.as_view() , name="logout"),
 
+    path('home/' , HomeView.as_view()) 
 ]

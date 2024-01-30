@@ -1,14 +1,23 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+
+
+class CustomUser(AbstractUser):
+    image = models.ImageField(upload_to='images/users',default='images/account.jpg')
+    location = models.PointField(null=True,blank=True)
+
+    def __str__(self):
+        return self.username
 
 
 class Offer(models.Model):
-    user = models.ForeignKey(User , on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     price = models.IntegerField()
 
     def __str__(self):
         return f'{self.user.username}-{self.price}'
-
 
 
 class Address(models.Model):
@@ -22,7 +31,6 @@ class Address(models.Model):
         return f'{self.country}/{self.governate}/{self.area}/{self.neighborhood}/{self.building_no}'
 
 
-
 class Estate(models.Model):
     TYPES = (
         ('Shop','Shop'),
@@ -31,7 +39,7 @@ class Estate(models.Model):
     )
     description = models.TextField
     space = models.IntegerField()
-    owner = models.ForeignKey(User,on_delete=models.CASCADE)
+    owner = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     coordinates = models.PointField()
     offers = models.ManyToManyField(Offer)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)

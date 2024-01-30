@@ -1,16 +1,156 @@
 from rest_framework.response import Response
-from base.models import Offer , Estate
+from base.models import *
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView , RetrieveAPIView , CreateAPIView
-from .serializers import EstateSerializer , OfferSerializer , UserSerializer
+from .serializers import *
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from base.filters import EstateFilter
-from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from django.contrib.auth import logout,login,authenticate
+from rest_framework.decorators import api_view
+# from django.core.paginator import Paginator
+from allauth.account.forms import SignupForm
+from allauth.account.utils import complete_signup
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.helpers import render_authentication_error
+from allauth.socialaccount.models import SocialLogin
+from allauth.socialaccount.adapter import get_adapter
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import status
-from django.shortcuts import redirect
+
+
+# class SignupView(APIView):
+#     def post(self, request, *args, **kwargs):
+#         form = SignupForm(request.data)
+#         if form.is_valid():
+#             user = form.save(request)
+#             get_adapter().save_user(request, user, form)
+#             complete_signup(request, user, None, None)
+#             return Response({"detail": "Successfully signed up."}, status=status.HTTP_200_OK)
+#         else:
+#             return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class GoogleLoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        adapter = GoogleOAuth2Adapter(request)
+        token = request.data.get("token")
+        uid = request.data.get("uid")
+        try:
+            login = adapter.complete_login(request, token, response=uid)
+            login.token = token
+            login.state = SocialLogin.state_from_request(request)
+            get_adapter().save_user(request, login, form=None)
+            refresh = RefreshToken.for_user(login.user)
+            return Response({
+                "detail": "Successfully logged in.",
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return render_authentication_error(request, str(e))
+
+
+
+
+class GoogleSignupView(APIView):
+    def post(self, request, *args, **kwargs):
+        adapter = GoogleOAuth2Adapter(request)
+        try:
+            login = adapter.complete_login(request)
+            login.state = SocialLogin.state_from_request(request)
+            get_adapter().save_user(request, login, form=None)
+            refresh = RefreshToken.for_user(login.user)
+            return Response({
+                "detail": "Successfully signed up.",
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return render_authentication_error(request, str(e))
+
+
+
+class HomeView(APIView):
+    def get(self,request):
+        return Response(
+            {"welcome home !!!"}
+        )
+    
+
+
+
+
+# class test(APIView):
+#     def get(self,request):
+#         file = "12.pdf"
+#         images = convert_pdf_to_images(file)
+#         paginator = Paginator(images, 10)
+#         page_number = request.GET.get('page', 1)
+#         page = paginator.get_page(page_number)
+#         page_dict = {
+#             'count': paginator.count,
+#             'num_pages': paginator.num_pages,
+#             'current_page': page.number,
+#             'next_page': page.has_next(),
+#             'previous_page': page.has_previous(),
+#             'results': [item for item in page],
+#         }
+#         return Response(page_dict)
+
+
+
+#------------------ Authentication ----------------------------#
+    
+
+
+class SignUpView(CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class  = SignUpSerializer
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        token = RefreshToken.for_user(user)
+        tokens = {
+            'refresh':str(token),
+            'accsess':str(token.access_token)
+        }
+        return Response({'username':user.username,
+                         'email':user.email,
+                         'tokens':tokens})
+
+
+
+
+
+class LoginView(APIView):
+    def post(self, request, *args, **kwargs):  
+        serializer = LoginSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        user = CustomUser.objects.filter(email = request.data['email']).first()
+        if user is None:
+            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        token = RefreshToken.for_user(user)
+        data = serializer.data
+        data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
+class LogoutView(APIView):
+    serializer_class = LogoutSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
 
 
 class ListEstates(ListAPIView):
@@ -24,6 +164,10 @@ class ListOffersPerEstate(RetrieveAPIView):
     queryset = Estate.objects.all()
     serializer_class = OfferSerializer
 
+
+class GetEstate(RetrieveAPIView):
+    queryset = Estate.objects.all()
+    serializer_class = EstateSerializer
 
 
 # class OffersNear(APIView):
@@ -51,29 +195,12 @@ class OffersNear(ListAPIView):
         return estates
 
 
-class SignUp2(CreateAPIView):
-    serializer_class = UserSerializer
 
 
 
-#-----login-----#
-class Login(APIView):
-    def get(self,request):
-        return Response('hello , you can login here')
-    def post(self,request):
-        username = request.data['username']
-        password = request.data['password']
-        user = authenticate(username=username , password=password)
-        if user:
-            login(request,user)
-            return redirect('books')
-        return Response('error' , status=status.HTTP_404_NOT_FOUND)
 
 
-#----logout----#
-class Logout(APIView):
-    permission_classes = [IsAuthenticated]
-    def get(self,request):
-        logout(request)
-        return Response('done')
-
+@api_view(['GET'])
+def getuser(request):
+    user = UserSerializer(request.user,many=False)
+    return Response(user.data)
