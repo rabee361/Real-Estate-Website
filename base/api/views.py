@@ -9,12 +9,6 @@ from base.filters import EstateFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
 # from django.core.paginator import Paginator
-from allauth.account.forms import SignupForm
-from allauth.account.utils import complete_signup
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.helpers import render_authentication_error
-from allauth.socialaccount.models import SocialLogin
-from allauth.socialaccount.adapter import get_adapter
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -31,45 +25,6 @@ from rest_framework import status
 #         else:
 #             return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-class GoogleLoginView(APIView):
-    def post(self, request, *args, **kwargs):
-        adapter = GoogleOAuth2Adapter(request)
-        token = request.data.get("token")
-        uid = request.data.get("uid")
-        try:
-            login = adapter.complete_login(request, token, response=uid)
-            login.token = token
-            login.state = SocialLogin.state_from_request(request)
-            get_adapter().save_user(request, login, form=None)
-            refresh = RefreshToken.for_user(login.user)
-            return Response({
-                "detail": "Successfully logged in.",
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-            }, status=status.HTTP_200_OK)
-        except Exception as e:
-            return render_authentication_error(request, str(e))
-
-
-
-
-class GoogleSignupView(APIView):
-    def post(self, request, *args, **kwargs):
-        adapter = GoogleOAuth2Adapter(request)
-        try:
-            login = adapter.complete_login(request)
-            login.state = SocialLogin.state_from_request(request)
-            get_adapter().save_user(request, login, form=None)
-            refresh = RefreshToken.for_user(login.user)
-            return Response({
-                "detail": "Successfully signed up.",
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-            }, status=status.HTTP_200_OK)
-        except Exception as e:
-            return render_authentication_error(request, str(e))
 
 
 

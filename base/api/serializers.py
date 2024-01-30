@@ -7,7 +7,6 @@ from django.contrib.auth import login , authenticate
 from django.contrib.gis.geos import Point
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.tokens import RefreshToken , TokenError
-
 from rest_framework.response import Response
 
 

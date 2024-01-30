@@ -47,35 +47,9 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'django_filters',
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
-
-
     'rest_framework_simplejwt.token_blacklist',
     'base'
 ]
-
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': '206033540821-mdonbrkmvgrtfu83e6vtsr96lvubi61b.apps.googleusercontent.com',
-            'secret': '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',
-            'key': '',
-            'SCOPE': [
-                'profile',
-                'email',
-            ],
-            'AUTH_PARAMS': {
-                'access_type': 'online',
-            }        
-        }
-    }
-}
 
 
 MIDDLEWARE = [
@@ -84,10 +58,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'real_estate.urls'
@@ -125,20 +97,10 @@ DATABASES = {
     }
 }
 
-SITE_ID = 1
-
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
-LOGIN_REDIRECT_URL = '/api/signup/'
-LOGIN_URL = '/api/signup'
-SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = '/api/signup/'
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
