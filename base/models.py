@@ -37,7 +37,7 @@ class Estate(models.Model):
         ('House','House'),
         ('Land','Land')
     )
-    description = models.TextField
+    description = models.TextField()
     space = models.IntegerField()
     owner = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     coordinates = models.PointField()

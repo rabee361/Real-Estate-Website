@@ -3,12 +3,11 @@ from .views import *
 
 urlpatterns = [
     path('offers/' , ListOffersPerEstate.as_view() , name="offers"),
-    path('estates/' , ListEstates.as_view(), name="estates"),
-    path('near-by/' , EstatesNear.as_view()),
-    path('estate/<str:pk>' , GetEstate.as_view() , name="estate"),
-    path('user/' , getuser , name="user"),
-    # path('login/' , GoogleLoginView.as_view()),
-    # path('signup/' , GoogleSignupView.as_view()),
+    path('list-estates/' , ListEstates.as_view(), name="list-estates"),
+    path('estates-near-by/' , EstatesNear.as_view()),
+    path('get-estate/<str:pk>' , GetEstate.as_view() , name="get-estate"),
+    # path('owner-info/<str:owner_id>/' , OwnerInfo.as_view() , name="owner-info"),
+    # path('make-offer/<str:estate_id>/' , MakeOffer.as_view() , name="make-offer"),
     path('sign-up/' , SignUpView.as_view() , name="sign-up"),
     path('login/' , LoginView.as_view() , name="login"),
     path('logout/' , LogoutView.as_view() , name="logout"),

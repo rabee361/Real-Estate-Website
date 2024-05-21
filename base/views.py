@@ -128,13 +128,6 @@ class GetEstate(RetrieveAPIView):
     serializer_class = EstateSerializer
 
 
-# class OffersNear(APIView):
-#     def get(self,request):
-#         pnt = Estate.objects.get(id=1)
-#         nearby_estates = Estate.objects.annotate(distance=Distance('longitude', pnt.longitude)).order_by('distance').filter(distance__lte=2000)
-#         serializer = EstateSerializer(nearby_estates,many=True)
-#         return Response(serializer.data)
-
 class EstatesNear(ListAPIView):
     queryset = Estate.objects.all()
     serializer_class = EstateSerializer
@@ -145,7 +138,7 @@ class EstatesNear(ListAPIView):
         pnt = user.location
         if pnt:
             estates = Estate.objects.annotate(distance=Distance('coordinates', pnt))\
-                                    .filter(distance__lte=D(km=500))\
+                                    .filter(distance__lte=D(km=100))\
                                     .order_by('distance')
         else:
             estates = Estate.objects.all()
@@ -154,10 +147,3 @@ class EstatesNear(ListAPIView):
 
 
 
-
-
-
-@api_view(['GET'])
-def getuser(request):
-    user = UserSerializer(request.user,many=False)
-    return Response(user.data)
