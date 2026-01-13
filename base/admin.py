@@ -1,13 +1,13 @@
 from django.contrib import admin
-from django.contrib.gis.admin import OSMGeoAdmin
+from leaflet.admin import LeafletGeoAdmin
 from .models import *
 
 @admin.register(Estate)
-class EstateAdmin(OSMGeoAdmin):
+class EstateAdmin(LeafletGeoAdmin):
     pass
 
 @admin.register(CustomUser)
-class CustomUserAdmin(OSMGeoAdmin):
+class CustomUserAdmin(LeafletGeoAdmin):
     pass
 
 admin.site.register(Offer)

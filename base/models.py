@@ -1,20 +1,11 @@
 from django.contrib.gis.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
-
-
-
-class CustomUser(AbstractUser):
-    image = models.ImageField(upload_to='images/users',default='images/account.jpg')
-    location = models.PointField(null=True,blank=True)
-
-    def __str__(self):
-        return self.username
+from users.models import CustomUser
 
 
 class Offer(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     price = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
         return f'{self.user.username}-{self.price}'
