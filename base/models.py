@@ -1,5 +1,11 @@
+from django.template.defaultfilters import default
 from django.contrib.gis.db import models
 from users.models import CustomUser
+
+
+class Covers(models.Model):
+    image = models.ImageField(upload_to='covers', default='covers/default.jpg')
+    created = models.DateTimeField(auto_now_add=True,null=True)
 
 
 class Offer(models.Model):
@@ -32,7 +38,7 @@ class Estate(models.Model):
     space = models.IntegerField()
     owner = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     coordinates = models.PointField()
-    offers = models.ManyToManyField(Offer)
+    offers = models.ManyToManyField(Offer, null=True, blank=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     deadline = models.DateField()
     created = models.DateField(auto_now_add=True)

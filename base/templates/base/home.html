@@ -1,0 +1,81 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="slider" id="heroSlider">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Luxury Villa">
+            <div class="slide-content">
+                <h1>Modern Luxury <span class="accent">Villas</span></h1>
+                <p>Discover your dream home in the heart of the city.</p>
+                <a href="#" class="btn btn-primary">Browse Estates</a>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide">
+            <img src="https://images.unsplash.com/photo-1600607687940-4e524cb35a3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Penthouse">
+            <div class="slide-content">
+                <h1>Exclusive <span class="accent">Penthouses</span></h1>
+                <p>Breathtaking views and premium amenities await you.</p>
+                <a href="#" class="btn btn-primary">Check Offers</a>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="slide">
+            <img src="https://images.unsplash.com/photo-1600566753190-17f0bbb2a6c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Family Mansion">
+            <div class="slide-content">
+                <h1>Suburban <span class="accent">Mansions</span></h1>
+                <p>Perfect for families looking for space and comfort.</p>
+                <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <button class="slider-btn prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-btn next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+
+        <!-- Slider Dots -->
+        <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Estates Section -->
+<section class="featured">
+    <div class="section-header">
+        <h2>Featured <span class="accent">Estates</span></h2>
+        <p>Handpicked properties that match your lifestyle.</p>
+    </div>
+
+    <div class="estates-grid">
+        {% for i in "12345678" %}
+        <div class="estate-card">
+            <div class="card-img">
+                <img src="https://images.unsplash.com/photo-1600585154526-990dcea4db0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                    alt="Property">
+                <span class="price">$1,250,000</span>
+                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="card-body">
+                <h3>Luxury Suburban Home</h3>
+                <p class="location"><i class="fas fa-map-marker-alt"></i> Beverly Hills, CA</p>
+                <div class="card-features">
+                    <span><i class="fas fa-bed"></i> 4 Beds</span>
+                    <span><i class="fas fa-bath"></i> 3 Baths</span>
+                    <span><i class="fas fa-ruler-combined"></i> 2,500 sqft</span>
+                </div>
+                <a href="#" class="card-link">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

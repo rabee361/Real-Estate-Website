@@ -13,6 +13,7 @@ dependencies = [
     "django-prometheus>=2.4.0",
     "djangorestframework>=3.16.1",
     "djangorestframework-simplejwt>=5.5.1",
+    "pillow>=12.1.0",
     "psycopg[binary]>=3.3.2",
     "python-dotenv>=1.2.1",
 ]

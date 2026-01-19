@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <h1>Estates</h1>
+    {% for estate in estates %}
+        <p>{{ estate.description }}</p>
+        <p>{{ estate.space }}</p>
+        <p>{{ estate.owner }}</p>
+        <p>{{ estate.coordinates }}</p>
+        <p>{{ estate.offers }}</p>
+        <p>{{ estate.address }}</p>
+        <p>{{ estate.deadline }}</p>
+        <p>{{ estate.created }}</p>
+        <p>{{ estate.property_type }}</p>
+        <p>{{ estate.active }}</p>
+        <p>{{ estate.price }}</p>
+    {% endfor %}
+{% endblock %}
