@@ -4,6 +4,9 @@ from django.views.generic import TemplateView
 from django.shortcuts import render
 
 
+class HomeView(TemplateView):
+    template_name = 'base/home.html'
+
 class EstatesView(View):
     def get(self, request):
         estates = Estate.objects.all()

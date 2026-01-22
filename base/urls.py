@@ -10,6 +10,7 @@ authPatterns = [
 ]
 
 urlpatterns = [
+    path('' , HomeView.as_view() , name="home"),
     path('offers/<int:estate_id>' , ListOffersPerEstate.as_view() , name="estate_offers"),
     path('estates/' , EstatesView.as_view(), name="estates"),
     path('estates/<int:pk>' , GetEstate.as_view() , name="estate"),

@@ -4,7 +4,9 @@ from django.contrib import admin
 from django.urls import path , include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('supersecureadmin/', admin.site.urls),
     path('' , include('base.urls')),
+    path('api/' , include('api.urls')),
+    path('admin/' , include('dashboard.urls')),
 
 ]+ static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)

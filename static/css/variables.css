@@ -1,0 +1,27 @@
+:root {
+    /* Light Mode Colors */
+    --primary-color: #6D28D9;
+    --primary-hover: #5B21B6;
+    --secondary-color: #EDE9FE;
+    --text-main: #1F2937;
+    --text-muted: #6B7280;
+    --bg-main: #FFFFFF;
+    --bg-secondary: #F9FAFB;
+    --white: #FFFFFF;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --transition: all 0.3s ease;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode Colors */
+    --bg-main: #0F172A;
+    --bg-secondary: #1E293B;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --secondary-color: #334155;
+    --glass-bg: rgba(15, 23, 42, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
