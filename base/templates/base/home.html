@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -6,17 +7,17 @@
     <div class="slider" id="heroSlider">
         <!-- Slide 1 -->
         <div class="slide active">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            <img src="{{ slide.image.url }}"
                 alt="Luxury Villa">
             <div class="slide-content">
-                <h1>Modern Luxury <span class="accent">Villas</span></h1>
-                <p>Discover your dream home in the heart of the city.</p>
+                <h1>{{ slide.title }}</h1>
+                <p>{{ slide.description }}</p>
                 <a href="#" class="btn btn-primary">Browse Estates</a>
             </div>
         </div>
         <!-- Slide 2 -->
         <div class="slide">
-            <img src="https://images.unsplash.com/photo-1600607687940-4e524cb35a3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            <img src=""
                 alt="Penthouse">
             <div class="slide-content">
                 <h1>Exclusive <span class="accent">Penthouses</span></h1>
@@ -34,6 +35,17 @@
                 <a href="#" class="btn btn-primary">Learn More</a>
             </div>
         </div>
+        
+        {% for slide in slides %}
+            <div class="slide">
+                <img src="{{ slide.image.url }}" alt="Family Mansion">
+                <div class="slide-content">
+                    <h1>{{ slide.title }}</h1>
+                    <p>{{ slide.description }}</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        {% endfor %}
 
         <!-- Slider Controls -->
         <button class="slider-btn prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
@@ -49,33 +61,37 @@
 </section>
 
 <!-- Featured Estates Section -->
-<section class="featured">
-    <div class="section-header">
-        <h2>Featured <span class="accent">Estates</span></h2>
-        <p>Handpicked properties that match your lifestyle.</p>
-    </div>
 
-    <div class="estates-grid">
-        {% for i in "12345678" %}
-        <div class="estate-card">
-            <div class="card-img">
-                <img src="https://images.unsplash.com/photo-1600585154526-990dcea4db0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                    alt="Property">
-                <span class="price">$1,250,000</span>
-                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="card-body">
-                <h3>Luxury Suburban Home</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Beverly Hills, CA</p>
-                <div class="card-features">
-                    <span><i class="fas fa-bed"></i> 4 Beds</span>
-                    <span><i class="fas fa-bath"></i> 3 Baths</span>
-                    <span><i class="fas fa-ruler-combined"></i> 2,500 sqft</span>
-                </div>
-                <a href="#" class="card-link">View Details</a>
-            </div>
+{% for section in sections %}
+    <section class="featured">
+        <div class="section-header">
+            <h2>{{ section.title }}</h2>
+            <p>{{ section.description }}</p>
         </div>
-        {% endfor %}
-    </div>
-</section>
+
+        <div class="estates-grid">
+            {% for estate in section.estates.all %}
+            <div class="estate-card">
+                <div class="card-img">
+                    <img src="{{ estate.image.url }}"
+                        alt="Property">
+                    <span class="price">$1,250,000</span>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="card-body">
+                    <h3>{{ estate.title }}</h3>
+                    <p class="location"><i class="fas fa-map-marker-alt"></i> {{ estate.address }}</p>
+                    <div class="card-features">
+                        <span><i class="fas fa-bed"></i> {{ estate.bedrooms }}</span>
+                        <span><i class="fas fa-bath"></i> {{ estate.bathrooms }}</span>
+                        <span><i class="fas fa-ruler-combined"></i> {{ estate.space }} sqft</span>
+                    </div>
+                    <a href="#" class="card-link">View Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endfor %}
+
 {% endblock %}

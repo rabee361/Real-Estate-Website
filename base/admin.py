@@ -12,3 +12,6 @@ class CustomUserAdmin(LeafletGeoAdmin):
 
 admin.site.register(Offer)
 admin.site.register(Address)
+admin.site.register(Section)
+admin.site.register(SectionEstate)
+admin.site.register(Slide)

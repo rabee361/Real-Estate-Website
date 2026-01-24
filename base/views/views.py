@@ -1,11 +1,18 @@
-from base.models import Offer, Estate
+from base.models import *
 from django.views import View
 from django.views.generic import TemplateView
 from django.shortcuts import render
 
 
 class HomeView(TemplateView):
-    template_name = 'base/home.html'
+    def get(self, request):
+        slides = Slide.objects.all()
+        sections = Section.objects.prefetch_related('estates').all()
+        context = {
+            "slides": slides,
+            "sections": sections
+        }
+        return render(request, 'base/home.html', context)
 
 class EstatesView(View):
     def get(self, request):
